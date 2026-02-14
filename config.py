@@ -1,4 +1,5 @@
 # Application configuration
+# extra comment
 
 APP_NAME = "TaskTracker"
 VERSION = "1.0.0"
