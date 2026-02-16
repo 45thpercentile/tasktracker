@@ -12,7 +12,7 @@ DB_PORT = 5432
 DB_NAME = "tasktracker"
 
 # Retry settings
-MAX_RETRIES = 3
+MAX_RETRIES = 5
 RETRY_DELAY = 1.0
 
 # Pagination
