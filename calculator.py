@@ -29,3 +29,8 @@ def percentage(part, whole):
 def completion_rate(done_count, total_count):
     """Calculate task completion rate."""
     return percentage(done_count, total_count)
+
+
+def discount(price, percent):
+    """Apply a discount to a price."""
+    return price * (1 - percent / 100)
