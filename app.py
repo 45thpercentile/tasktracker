@@ -1,8 +1,12 @@
 """TaskTracker - a simple task management application."""
 
+import logging
+
 from models import User, Task
 from utils import validate_email, generate_id, format_date
 from config import APP_NAME, VERSION, DEFAULT_PAGE_SIZE
+
+logger = logging.getLogger(__name__)
 
 
 class TaskTracker:
@@ -14,14 +18,17 @@ class TaskTracker:
 
     def create_user(self, username, email):
         if not validate_email(email):
+            logger.error("Invalid email: %s", email)
             raise ValueError(f"Invalid email: {email}")
         if username in self.users:
+            logger.error("Username already exists: %s", username)
             raise ValueError(f"Username already exists: {username}")
 
         self._user_counter += 1
         user_id = generate_id("USR", self._user_counter)
         user = User(user_id, username, email)
         self.users[username] = user
+        logger.info("Created user: %s (%s)", username, user_id)
         return user
 
     def create_task(self, title, description, assigned_to=None):
@@ -36,6 +43,7 @@ class TaskTracker:
 
         task = Task(task_id, title, description, assignee)
         self.tasks[task_id] = task
+        logger.info("Created task: %s (%s)", title, task_id)
         return task
 
     def update_task_status(self, task_id, new_status):
