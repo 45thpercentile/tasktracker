@@ -1,8 +1,12 @@
 """TaskTracker - a simple task management application."""
 
+import logging
+
 from models import User, Task
 from utils import validate_email, generate_id, format_date
 from config import APP_NAME, VERSION, DEFAULT_PAGE_SIZE
+
+logger = logging.getLogger(__name__)
 
 
 class TaskTracker:
@@ -14,17 +18,17 @@ class TaskTracker:
 
     def create_user(self, username, email):
         if not validate_email(email):
-            print(f"[ERROR] Invalid email: {email}")
+            logger.error("Invalid email: %s", email)
             raise ValueError(f"Invalid email: {email}")
         if username in self.users:
-            print(f"[ERROR] Username already exists: {username}")
+            logger.error("Username already exists: %s", username)
             raise ValueError(f"Username already exists: {username}")
 
         self._user_counter += 1
         user_id = generate_id("USR", self._user_counter)
         user = User(user_id, username, email)
         self.users[username] = user
-        print(f"[INFO] Created user: {username} ({user_id})")
+        logger.info("Created user: %s (%s)", username, user_id)
         return user
 
     def create_task(self, title, description, assigned_to=None):
@@ -39,7 +43,7 @@ class TaskTracker:
 
         task = Task(task_id, title, description, assignee)
         self.tasks[task_id] = task
-        print(f"[INFO] Created task: {title} ({task_id})")
+        logger.info("Created task: %s (%s)", title, task_id)
         return task
 
     def update_task_status(self, task_id, new_status):
@@ -47,7 +51,6 @@ class TaskTracker:
         if not task:
             raise ValueError(f"Task not found: {task_id}")
         task.update_status(new_status)
-        print(f"[INFO] Task {task_id} status changed to: {new_status}")
         return task
 
     def get_tasks_by_status(self, status):
