@@ -31,12 +31,18 @@ def parse_priority(priority_str):
     return priorities.get(priority_str.lower(), 0)
 
 
-def search_tasks(tasks, query):
+def search_tasks(tasks, query, case_sensitive=False):
     """Search tasks by title or description."""
     results = []
     for task in tasks:
-        if query.lower() in task.title.lower():
-            results.append(task)
-        elif query.lower() in task.description.lower():
-            results.append(task)
+        if case_sensitive:
+            if query in task.title:
+                results.append(task)
+            elif query in task.description:
+                results.append(task)
+        else:
+            if query.lower() in task.title.lower():
+                results.append(task)
+            elif query.lower() in task.description.lower():
+                results.append(task)
     return results
