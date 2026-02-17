@@ -29,3 +29,14 @@ def parse_priority(priority_str):
     """Convert a priority string to a numeric value."""
     priorities = {"low": 1, "medium": 2, "high": 3}
     return priorities.get(priority_str.lower(), 0)
+
+
+def search_tasks(tasks, qeury):
+    """Search tasks by title or description."""
+    results = []
+    for task in tasks:
+        if qeury.lower() in task.title.lower():
+            results.append(task)
+        elif qeury.lower() in task.description.lower():
+            results.append(task)
+    return results
